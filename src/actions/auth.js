@@ -1,5 +1,25 @@
-import { types } from "../types/types"
+import { firebase, googleAuthProvider } from '../firebase/firebase-config';
+import { types } from '../types/types';
 
+
+export const startLoginEmailPassword = ( email, password ) => {
+    return ( dispatch ) => {
+        setTimeout(() => {
+            dispatch( login(123, "Rosa"));
+        }, 3500);
+    }
+}
+
+export const startGoogleLogin = ( email, password ) => {
+    return ( dispatch ) => {
+        firebase.auth().signInWithPopup( googleAuthProvider )
+            .then( ({ user, }) => {
+                dispatch(
+                    login(user.uid, user.displayName )
+                )
+            });
+    }
+}
 
 export const login = (uid, displayName) => ({
     type: types.login,
@@ -7,4 +27,4 @@ export const login = (uid, displayName) => ({
         uid,
         displayName
     }
-})
+});
