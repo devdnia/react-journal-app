@@ -13,7 +13,6 @@ export const LoginScreen = () => {
 
   // useSelector para coger info del state
   const { msgError, loading } = useSelector(state => state.ui);
-  console.log(loading);
 
   const [formValues, handleInputChange] = useForm({
     email: '',
@@ -37,7 +36,6 @@ export const LoginScreen = () => {
 
     if (!validator.isEmail(email)) {
       dispatch(setError('Email is not valid'))
-      console.log('Email is not valid');
       return false;
     } else if (password.length < 5) {
       dispatch(setError('Password not valid'))
