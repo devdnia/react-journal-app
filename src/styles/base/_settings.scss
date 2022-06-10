@@ -6,3 +6,8 @@ $light-grey: #d8d8d8;
 $white: #fff;
 $google-blue: #4285f4;
 $button-active-blue: #1669f2;
+
+// Animaciones
+.animate__animated animate__fadeIn {
+    -o-animation-duration: 0.5s;
+}
