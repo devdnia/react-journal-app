@@ -1,24 +1,40 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
+import { startRegisterEmailPasswordName } from '../../actions/auth';
+import { removeError, setError } from '../../actions/ui';
+
 
 import { useForm } from '../../hooks/useForm';
 
+
 export const RegisterScreen = () => {
 
+  const dispatch = useDispatch();
+
+
+  // useSelector para coger info del state
+  const { msgError } = useSelector(state => state.ui);
+
+
   const [formValues, handleInputChange] = useForm({
-    name: 'Pablete',
-    email: 'pablete@gmail.com',
-    password: '123456',
-    password2: '123456',
+    name: '',
+    email: '',
+    password: '',
+    password2: '',
   });
 
   const { name, email, password, password2 } = formValues;
 
+
   const handleRegister = (e) => {
     e.preventDefault();
+    if (isFormValid()) {
+      dispatch(startRegisterEmailPasswordName(email, password, name))
+    }
 
     if (isFormValid()) {
-      console.log('Form correctly');
+      dispatch(startRegisterEmailPasswordName(email, password, name))
     }
 
   }
@@ -26,18 +42,22 @@ export const RegisterScreen = () => {
   const isFormValid = () => {
 
     if (name.trim().length === 0) {
-      console.log('Name is required');
+      dispatch(setError('Name is required'))
       return false;
     } else if (!validator.isEmail(email)) {
-      console.log('Email is not valid');
+      dispatch(setError('Email is not valid'))
       return false;
     } else if (password !== password2 || password.length < 5) {
-      console.log('Password should be at least 6 characters and match each other');
+      dispatch(setError('Password should be at least 6 characters and match each other'))
       return false;
     }
 
+    // No hay errores
+    dispatch(removeError());
+
     return true;
   }
+
 
   return (
     <>
@@ -45,9 +65,13 @@ export const RegisterScreen = () => {
 
       <form onSubmit={handleRegister}>
 
-        <div className="auth__alert-error">
-          error!
-        </div>
+        {
+          msgError && (
+            <div className="auth__alert-error animate__animated animate__fadeIn">
+              {msgError}
+            </div>
+          )
+        }
 
         <input
           type="text"
