@@ -24,8 +24,7 @@ export const AppRouter = () => {
 
     }, [ dispatch ]);
     
-
-
+    console.log('Prueba github')
     return (
         <>
             <BrowserRouter>
